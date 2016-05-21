@@ -9,4 +9,4 @@ sudo gunicorn -c /etc/gunicorn.d/conf.hello.py hello:app
 #sudo /etc/init.d/gunicorn restart
 
 sudo ln -sf /home/box/web/etc/gunicorn.conf.py /etc/gunicorn.d/conf.py
-sudo gunicorn -c /etc/gunicorn.d/conf.py ask.wsgi
+sudo gunicorn -c /etc/gunicorn.d/conf.py ask.wsgi:application
