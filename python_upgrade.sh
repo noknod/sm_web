@@ -10,5 +10,6 @@ sudo apt-get install python-dev libmysqlclient-dev
 sudo apt-get install python3-dev
 pip install mysqlclient
 
+source sql/mysql.sql
 ask/manage.py makemigrations
 ask/manage.py migrate

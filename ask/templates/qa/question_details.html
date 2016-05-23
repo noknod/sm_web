@@ -4,7 +4,28 @@
     <div>
         {{ question.text }}
     </div>
-
+    <br>
+    <div>
+        {% for e in form.non_field_errors %}
+            <div class="alert alert-danger">{{ e }}</div>
+        {% endfor %}
+        <form class="form-horizontal" method="post" action="/answer/">
+            <fieldset>
+                {% csrf_token %}
+                <!--input type="text" hidden="true" name="question" value="{{ question.pk }}"-->
+                {% for field in form %}
+                    <div class="control-group {% if field.errors %}has-error{% endif %}">
+                        <label class="control-label">{{ field.label }}</label>
+                        <div class="controls">{{ field }}</div>
+                    </div>
+                {% endfor %}
+            </fieldset>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+    </div>
+    <br>
     <div>
         {% for answer in question.answer_set.all %}
             <p>

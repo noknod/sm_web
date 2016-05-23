@@ -87,3 +87,9 @@ class Answer(models.Model):
         DjangoAuthUser, 
         db_index=True
     )
+
+    def __unicode__(self):
+        return self.pk
+
+    def get_absolute_url(self):
+        return '/answer/%d/' % self.pk

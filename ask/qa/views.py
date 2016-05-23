@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
 
 from qa.models import Question, Answer
+from qa.forms import QuestionForm, AnswerForm
 
 
 def test(request, *args, **kwargs):
@@ -78,5 +79,33 @@ def question_by_id(request, pk):
     return render(
         request, 
         'qa/question_details.html',
-        {'question': question,}
+        {'question': question,
+         'form': AnswerForm(initial={'question': question.id})}
     )
+
+
+def question_add(request):
+    if request.method == "POST":
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            question = form.save()
+            url = question.get_absolute_url()
+            return HttpResponseRedirect(url)
+    else:
+        form = QuestionForm()
+    return render(
+        request, 
+        'qa/question_add.html', 
+        {'form': form}
+    )
+
+
+@require_POST
+def answer_add(request):
+    form = AnswerForm(request.POST)
+    if form.is_valid():
+        answer = form.save()
+        url = answer.question.get_absolute_url()
+        return HttpResponseRedirect(url)
+    else:
+        raise Http404
