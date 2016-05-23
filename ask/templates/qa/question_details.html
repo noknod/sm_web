@@ -1,0 +1,16 @@
+<html>
+<body>
+    <h1>{{ question.title }}</h1>
+    <div>
+        {{ question.text }}
+    </div>
+
+    <div>
+        {% for answer in question.answer_set.all %}
+            <p>
+                {{ answer.text }}
+            </p>
+        {% endfor %}
+    </div>
+</body>
+</html>

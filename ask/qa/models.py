@@ -64,7 +64,7 @@ class Question(models.Model):
         ordering = ['-creation_date']
     """
 
-    objects = QuestionManager()
+    # objects = QuestionManager()    
 
 
 class Answer(models.Model):
