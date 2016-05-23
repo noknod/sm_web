@@ -1,3 +1,4 @@
+sudo /etc/init.d/mysql restart
 mysql -u root -e "CREATE database sm_web CHARACTER SET = utf8;"
 mysql -u root -e "CREATE user 'sm_web_user'@'localhost';"
 mysql -u root -e "SET PASSWORD FOR 'sm_web_user'@'localhost' = PASSWORD('p');" -p

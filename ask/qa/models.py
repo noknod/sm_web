@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 
 from django.contrib.auth.models import User as DjangoAuthUser
@@ -5,6 +6,13 @@ from django.utils import timezone
 
 
 # Create your models here.
+
+
+class QuestionManager(models.Manager):                                          
+        def new():                                                              
+                pass                                                            
+        def popular():                                                          
+                pass 
 
 
 class Question(models.Model):
@@ -55,6 +63,8 @@ class Question(models.Model):
         db_table = 'blogposts'
         ordering = ['-creation_date']
     """
+
+    objects = QuestionManager()
 
 
 class Answer(models.Model):
