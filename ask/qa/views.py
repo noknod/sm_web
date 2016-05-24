@@ -4,7 +4,7 @@ from django.core.paginator import Paginator, EmptyPage
 from django.views.decorators.http import require_GET, require_POST
 
 from qa.models import Question, Answer
-from qa.forms import QuestionForm, AnswerForm
+from qa.forms import AskForm, AnswerForm
 
 
 def test(request, *args, **kwargs):
@@ -70,8 +70,10 @@ def question_list_popular(request):
     )
 
 
-@require_GET
+#@require_GET
 def question_by_id(request, pk):
+    if request.method == 'POST':
+        return render('OK')
     try:
         question = Question.objects.get(pk=pk)
     except Question.DoesNotExist:
@@ -86,13 +88,13 @@ def question_by_id(request, pk):
 
 def question_add(request):
     if request.method == "POST":
-        form = QuestionForm(request.POST)
+        form = AskForm(request.POST)
         if form.is_valid():
             question = form.save()
             url = question.get_absolute_url()
             return HttpResponseRedirect(url)
     else:
-        form = QuestionForm()
+        form = AskForm()
     return render(
         request, 
         'qa/question_add.html', 
@@ -100,12 +102,18 @@ def question_add(request):
     )
 
 
-@require_POST
+#@require_POST
 def answer_add(request):
-    form = AnswerForm(request.POST)
-    if form.is_valid():
-        answer = form.save()
-        url = answer.question.get_absolute_url()
-        return HttpResponseRedirect(url)
-    else:
-        raise Http404
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save()
+            url = answer.question.get_absolute_url()
+            return HttpResponseRedirect(url)
+    HttpResponseRedirect('/')
+
+"""
+python manage.py shell
+from django.contrib.auth.models import User
+user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword').save().
+"""
